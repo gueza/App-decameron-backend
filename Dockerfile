@@ -18,6 +18,15 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /var/www
 COPY . .
+
+ENV DB_CONNECTION=pgsql
+ENV DB_HOST=postgresql://stephy:0FQaKkSuiqpwe5qGmrhz8pKHGVjVzvTW@dpg-ct8r0q2j1k6c73eaqlqg-a/decameron_hotel
+ENV DB_PORT=5432
+ENV DB_DATABASE=decameron_hotel
+ENV DB_USERNAME=stephy
+ENV DB_PASSWORD=0FQaKkSuiqpwe5qGmrhz8pKHGVjVzvTW
+ENV APP_KEY=base64:2QUflnfWUQOEh8N1D/JegT+iRMx4ZKCcF3kAXLwJHus=
+
 RUN composer install --no-dev --optimize-autoloader
 
 RUN chmod -R 775 storage bootstrap/cache
