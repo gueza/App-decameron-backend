@@ -43,9 +43,8 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 RUN php artisan config:cache
 RUN php artisan route:cache
 
-# RUN php artisan migrate
-# RUN php artisan db:seed
-
+RUN php artisan migrate
+RUN php artisan db:seed
 
 # Puerto de escucha para la aplicación
 EXPOSE 8000
