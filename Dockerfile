@@ -24,8 +24,9 @@ WORKDIR /var/www
 COPY . .
 
 # Establece las variables de entorno necesarias para PostgreSQL
+ENV APP_DEBUG=true
 ENV DB_CONNECTION=pgsql
-ENV DB_HOST=postgresql://stephy:0FQaKkSuiqpwe5qGmrhz8pKHGVjVzvTW@dpg-ct8r0q2j1k6c73eaqlqg-a/decameron_hotel
+ENV DB_HOST=dpg-ct8r0q2j1k6c73eaqlqg-a
 ENV DB_PORT=5432
 ENV DB_DATABASE=decameron_hotel
 ENV DB_USERNAME=stephy
@@ -42,8 +43,8 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 RUN php artisan config:cache
 RUN php artisan route:cache
 
-RUN php artisan migrate
-RUN php artisan db:seed
+# RUN php artisan migrate
+# RUN php artisan db:seed
 
 
 # Puerto de escucha para la aplicación

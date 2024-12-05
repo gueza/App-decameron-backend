@@ -5,12 +5,14 @@ services:
     buildCommand: "composer install && php artisan key:generate"
     startCommand: "php artisan serve --host 0.0.0.0 --port 8000"
     envVars:
+      - key: APP_DEBUG
+        value: debug
       - key: APP_KEY
         value: base64:2QUflnfWUQOEh8N1D/JegT+iRMx4ZKCcF3kAXLwJHus=
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
-        value: postgresql://stephy:0FQaKkSuiqpwe5qGmrhz8pKHGVjVzvTW@dpg-ct8r0q2j1k6c73eaqlqg-a/decameron_hotel
+        value: dpg-ct8r0q2j1k6c73eaqlqg-a
       - key: DB_DATABASE
         value: decameron_hotel
       - key: DB_USERNAME

@@ -11,7 +11,7 @@ services:
       - ./storage:/var/www/storage
     environment:
       APP_ENV: local
-      APP_KEY: base64:2QUflnfWUQOEh8N1D/JegT+iRMx4ZKCcF3kAXLwJHus=
+      APP_KEY: dpg-ct8r0q2j1k6c73eaqlqg-a
       APP_DEBUG: true
       APP_URL: http://localhost
       DB_CONNECTION: pgsql
