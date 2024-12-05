@@ -11,29 +11,12 @@ services:
       - ./storage:/var/www/storage
     environment:
       APP_ENV: local
-      APP_KEY: base64:YOUR_APP_KEY
+      APP_KEY: base64:2QUflnfWUQOEh8N1D/JegT+iRMx4ZKCcF3kAXLwJHus=
       APP_DEBUG: true
       APP_URL: http://localhost
       DB_CONNECTION: pgsql
-      DB_HOST: dpg-ct8r0q2j1k6c73eaqlqg-a
+      DB_HOST: postgresql://stephy:0FQaKkSuiqpwe5qGmrhz8pKHGVjVzvTW@dpg-ct8r0q2j1k6c73eaqlqg-a/decameron_hotel
       DB_PORT: 5432
       DB_DATABASE: decameron_hotel
       DB_USERNAME: stephy
       DB_PASSWORD: 0FQaKkSuiqpwe5qGmrhz8pKHGVjVzvTW
-    depends_on:
-      - db
-
-  db:
-    image: postgres:15
-    container_name: laravel_db
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: decameron_hotel
-      POSTGRES_USER: stephy
-      POSTGRES_PASSWORD: 0FQaKkSuiqpwe5qGmrhz8pKHGVjVzvTW
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-
-volumes:
-  pg_data:
