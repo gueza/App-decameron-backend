@@ -5,6 +5,7 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\AccommodationController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\MigrationController;
 use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\RoomTypeAccommodationController;
 
@@ -30,5 +31,7 @@ Route::get('/city', [CityController::class, 'list']);
 
 // RoomType
 Route::get('/room-type', [RoomTypeController::class, 'list']);
+
+Route::get('run-migrations', [MigrationController::class, 'runMigrations']);
 
 
