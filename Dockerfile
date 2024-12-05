@@ -43,9 +43,9 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 RUN php artisan config:cache
 RUN php artisan route:cache
 
-CMD php artisan migrate:reset
-CMD php artisan migrate --force
-CMD php artisan db:seed
+CMD ["php", "artisan", "migrate:reset"]
+CMD ["php" "artisan" "migrate" "--force"]
+CMD ["php" "artisan" "db:seed"]
 
 # Puerto de escucha para la aplicación
 EXPOSE 8000

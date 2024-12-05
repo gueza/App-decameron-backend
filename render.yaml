@@ -2,7 +2,7 @@ services:
   - type: web
     name: laravel-backend
     env: php
-    buildCommand: "composer install && php artisan key:generate"
+    buildCommand: "composer install && php artisan key:generate && php artisan migrate --force && php artisan db:seed --force"
     startCommand: |
       php artisan migrate --force &&
       php artisan db:seed --force &&
