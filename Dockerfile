@@ -26,11 +26,11 @@ COPY . .
 # Establece las variables de entorno necesarias para PostgreSQL
 ENV APP_DEBUG=true
 ENV DB_CONNECTION=pgsql
-ENV DB_HOST=dpg-ct8r0q2j1k6c73eaqlqg-a
+ENV DB_HOST=dpg-cu7auj23esus73fiabo0-a
 ENV DB_PORT=5432
-ENV DB_DATABASE=decameron_hotel
+ENV DB_DATABASE=decameron_hotel_glio
 ENV DB_USERNAME=stephy
-ENV DB_PASSWORD=0FQaKkSuiqpwe5qGmrhz8pKHGVjVzvTW
+ENV DB_PASSWORD=hL7X8QLckUDWgaxmMFTszIgzVAvW2gQM
 ENV APP_KEY=base64:2QUflnfWUQOEh8N1D/JegT+iRMx4ZKCcF3kAXLwJHus=
 
 RUN composer install --no-dev --optimize-autoloader

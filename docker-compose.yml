@@ -11,12 +11,12 @@ services:
       - ./storage:/var/www/storage
     environment:
       APP_ENV: local
-      APP_KEY: dpg-ct8r0q2j1k6c73eaqlqg-a
+      APP_KEY: dpg-cu7auj23esus73fiabo0-a
       APP_DEBUG: true
       APP_URL: http://localhost
       DB_CONNECTION: pgsql
-      DB_HOST: postgresql://stephy:0FQaKkSuiqpwe5qGmrhz8pKHGVjVzvTW@dpg-ct8r0q2j1k6c73eaqlqg-a/decameron_hotel
+      DB_HOST: postgresql://stephy:hL7X8QLckUDWgaxmMFTszIgzVAvW2gQM@dpg-cu7auj23esus73fiabo0-a/decameron_hotel
       DB_PORT: 5432
-      DB_DATABASE: decameron_hotel
+      DB_DATABASE: decameron_hotel_glio
       DB_USERNAME: stephy
-      DB_PASSWORD: 0FQaKkSuiqpwe5qGmrhz8pKHGVjVzvTW
+      DB_PASSWORD: hL7X8QLckUDWgaxmMFTszIgzVAvW2gQM
