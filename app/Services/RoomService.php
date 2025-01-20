@@ -85,7 +85,7 @@ class RoomService
             $this->validateAccommodationForRoomType($data['rty_id'], $data['acc_id']);
         }
 
-        $this->validateRoomCombination($data);
+        $this->validateRoomCombination($data, $id);
 
         $room->update($data);
         return $room;
@@ -131,13 +131,19 @@ class RoomService
         }
     }
 
-    private function validateRoomCombination(array $data)
+    private function validateRoomCombination(array $data, int $roomId = null)
     {
         $exists = Room::where('hot_id', $data['hot_id'])
             ->where('acc_id', $data['acc_id'])
             ->where('rty_id', $data['rty_id'])
-            ->where('roo_state', 1)
-            ->exists();
+            ->where('roo_state', 1);
+            // ->exists();
+
+        if ($roomId && Room::where('roo_id', $roomId)->exists()) {
+            $exists->where('roo_id', '!=', $roomId);
+        }
+
+        $exists = $exists->exists();
 
         if ($exists) {
             throw new \InvalidArgumentException('A room with this combination already exists.');
