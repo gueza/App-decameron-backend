@@ -3,9 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\RoomType;
+use App\Services\ExceptionHandlerService;
 
 class RoomTypeController extends Controller
 {
+    private $exceptionHandler;
+
+    public function __construct(ExceptionHandlerService $exceptionHandler)
+    {
+        $this->exceptionHandler = $exceptionHandler;
+    }
+
     public function list()
     {
         try {
@@ -17,15 +25,7 @@ class RoomTypeController extends Controller
                 'data' => $roomTypes,
             ], 200);
         } catch (\Exception $e) {
-            return $this->handleException($e, 'Error listing room types');
+            return $this->exceptionHandler->handle($e, 'Error listing room types');
         }
-    }
-
-    private function handleException(\Exception $e, $defaultMessage)
-    {
-        return response()->json([
-            'message' => $defaultMessage . ': ' . $e->getMessage(),
-            'state' => false,
-        ], 500);
     }
 }

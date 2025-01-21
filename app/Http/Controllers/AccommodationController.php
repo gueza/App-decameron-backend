@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Accommodation;
 use App\Services\AccommodationService;
+use App\Services\ExceptionHandlerService;
 use Illuminate\Http\Request;
 
 class AccommodationController extends Controller
 {
     protected $accommodationService;
+    private $exceptionHandler;
 
-    public function __construct(AccommodationService $accommodationService)
+    public function __construct(AccommodationService $accommodationService, ExceptionHandlerService $exceptionHandler)
     {
         $this->accommodationService = $accommodationService;
+        $this->exceptionHandler = $exceptionHandler;
     }
 
     public function list()
@@ -26,14 +29,14 @@ class AccommodationController extends Controller
                 'data' => $accommodations,
             ], 200);
         } catch (\Exception $e) {
-            return $this->handleException($e, 'Error listing accommodations');
+            return $this->exceptionHandler->handle($e, 'Error listing accommodations');
         }
     }
 
     public function getAccommodationsByRoomType(Request $request)
     {
         try {
-            
+
             $validated = $request->validate([
                 'rty_id' => 'required|exists:room_types,rty_id',
             ]);
@@ -46,15 +49,7 @@ class AccommodationController extends Controller
                 'data' => $accommodations,
             ], 200);
         } catch (\Exception $e) {
-            return $this->handleException($e, 'Error listing accommodations by room type');
+            return $this->exceptionHandler->handle($e, 'Error listing accommodations by room type');
         }
-    }
-
-    private function handleException(\Exception $e, $defaultMessage)
-    {
-        return response()->json([
-            'message' => $defaultMessage . ': ' . $e->getMessage(),
-            'state' => false,
-        ], 500);
     }
 }

@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ExceptionHandlerService;
 use Illuminate\Http\Request;
 use App\Services\RoomService;
 
 class RoomController extends Controller
 {
     private $roomService;
+    private $exceptionHandler;
 
-    public function __construct(RoomService $roomService)
+    public function __construct(RoomService $roomService, ExceptionHandlerService $exceptionHandler)
     {
         $this->roomService = $roomService;
+        $this->exceptionHandler = $exceptionHandler;
     }
 
     public function getRoomsByHotel(Request $request)
@@ -35,7 +38,7 @@ class RoomController extends Controller
                 'data' => $rooms,
             ], 200);
         } catch (\Exception $e) {
-            return $this->handleException($e, 'Error retrieving rooms');
+            return $this->exceptionHandler->handle($e, 'Error retrieving rooms');
         }
     }
 
@@ -49,7 +52,7 @@ class RoomController extends Controller
                 'data' => $rooms
             ], 200);
         } catch (\Exception $e) {
-            return $this->handleException($e);
+            return $this->exceptionHandler->handle($e, 'Error listing rooms');
         }
     }
 
@@ -63,7 +66,7 @@ class RoomController extends Controller
                 'data' => $room
             ], 201);
         } catch (\Exception $e) {
-            return $this->handleException($e);
+            return $this->exceptionHandler->handle($e, 'Error creating room');
         }
     }
 
@@ -77,7 +80,7 @@ class RoomController extends Controller
                 'data' => $room
             ], 200);
         } catch (\Exception $e) {
-            return $this->handleException($e);
+            return $this->exceptionHandler->handle($e, 'Error updating room');
         }
     }
 
@@ -90,15 +93,7 @@ class RoomController extends Controller
                 'state' => true
             ], 200);
         } catch (\Exception $e) {
-            return $this->handleException($e);
+            return $this->exceptionHandler->handle($e, 'Error deleting room');
         }
-    }
-
-    private function handleException(\Exception $e)
-    {
-        return response()->json([
-            'message' => 'An error occurred: ' . $e->getMessage(),
-            'state' => false
-        ], 500);
     }
 }

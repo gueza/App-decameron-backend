@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Hotel;
+use App\Models\Room;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
@@ -44,6 +45,8 @@ class HotelService
 
     public function updateHotel(Hotel $hotel, array $validatedData)
     {
+        $this->validateRoomCapacityByHotelId($hotel->hot_id, $validatedData['hot_quantity_rooms']);
+
         $hotel->update($validatedData);
         return $hotel;
     }
@@ -51,5 +54,15 @@ class HotelService
     public function deleteHotel(Hotel $hotel)
     {
         $hotel->update(['hot_state' => 0]);
+    }
+
+    public function validateRoomCapacityByHotelId(int $hotelId, int $newQuantity)
+    {
+        $currentRooms = Room::where('hot_id', $hotelId)
+            ->sum('roo_quantity');
+
+        if ($currentRooms > $newQuantity) {
+            throw new \OverflowException('The total number of rooms exceeds the hotel capacity.');
+        }
     }
 }

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hotel;
+use App\Services\ExceptionHandlerService;
 use App\Services\HotelService;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -10,10 +11,12 @@ use Illuminate\Validation\ValidationException;
 class HotelController extends Controller
 {
     protected $hotelService;
+    private $exceptionHandler;
 
-    public function __construct(HotelService $hotelService)
+    public function __construct(HotelService $hotelService, ExceptionHandlerService $exceptionHandler)
     {
         $this->hotelService = $hotelService;
+        $this->exceptionHandler = $exceptionHandler;
     }
 
     public function list()
@@ -27,7 +30,7 @@ class HotelController extends Controller
                 'data' => $hotels,
             ], 200);
         } catch (\Exception $e) {
-            return $this->handleException($e, 'Error listing hotels');
+            return $this->exceptionHandler->handle($e, 'Error listing hotels');
         }
     }
 
@@ -44,7 +47,7 @@ class HotelController extends Controller
                 'data' => $hotel,
             ], 201);
         } catch (\Exception $e) {
-            return $this->handleException($e, 'Error creating hotel');
+            return $this->exceptionHandler->handle($e, 'Error creating hotel');
         }
     }
 
@@ -52,21 +55,21 @@ class HotelController extends Controller
     {
         try {
             $hotel = Hotel::findOrFail($id);
-    
+
             $validated = $this->hotelService->validateHotel($request, $id);
-    
+
             $hotel = $this->hotelService->updateHotel($hotel, $validated);
-    
+
             return response()->json([
                 'message' => 'Hotel updated successfully.',
                 'state' => true,
                 'data' => $hotel,
             ], 200);
         } catch (\Exception $e) {
-            return $this->handleException($e, 'Error updating hotel');
+            return $this->exceptionHandler->handle($e, 'Error updating hotel');
         }
     }
-    
+
 
     public function delete($id)
     {
@@ -80,33 +83,7 @@ class HotelController extends Controller
                 'state' => true,
             ], 200);
         } catch (\Exception $e) {
-            return $this->handleException($e, 'Error deleting hotel');
+            return $this->exceptionHandler->handle($e, 'Error deleting hotel');
         }
-    }
-
-    private function handleException(\Exception $e, $defaultMessage)
-    {
-        if ($e instanceof ModelNotFoundException) {
-            return response()->json([
-                'message' => 'Hotel not found.',
-                'state' => false,
-            ], 404);
-        }
-
-        if ($e instanceof ValidationException) {
-            $message = '';
-            foreach ($e->errors() as $fieldErrors) {
-                $message .= implode(", ", $fieldErrors) . "; ";
-            }
-            return response()->json([
-                'message' => 'Validation errors: ' . $message,
-                'state' => false,
-            ], 422);
-        }
-
-        return response()->json([
-            'message' => $defaultMessage . ': ' . $e->getMessage(),
-            'state' => false,
-        ], 500);
     }
 }
